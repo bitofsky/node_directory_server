@@ -13,7 +13,7 @@ export const SERV_INFO_VALUE = process.env.SERV_INFO_VALUE;
 export const METRICS_PATH = process.env.METRICS_PATH;
 export const METRICS_PORT = process.env.METRICS_PORT;
 
-export const ALL_PATHS = [SERV_PATH, SERV_MD5_PATH, SERV_INFO_PATH, METRICS_PATH].filter(f => f.trim());
+export const ALL_PATHS = [SERV_PATH, SERV_MD5_PATH, SERV_INFO_PATH, METRICS_PATH].filter(f => String(f || '').trim());
 
 import { INFO } from './util';
 
