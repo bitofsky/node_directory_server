@@ -65,4 +65,4 @@ jobs:
             org.opencontainers.image.version=${{ steps.prep.outputs.version }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
             org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }
+            org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
