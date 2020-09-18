@@ -15,7 +15,7 @@ FROM node:14.10.1-alpine
 WORKDIR /app
 
 COPY --from=tsc /app/dist ./dist
-COPY /*.json ./
+COPY /*.json /.env ./
 
 RUN npm ci --production
 

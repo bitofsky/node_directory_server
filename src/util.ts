@@ -1,7 +1,7 @@
 import { createHash } from 'crypto';
 import AdmZip from 'adm-zip';
 
-const debugEnabled = new Set(process.env.NODE_DEBUG.toLocaleLowerCase().split(',').map(s => s.trim()));
+const debugEnabled = new Set((process.env.NODE_DEBUG || '').toLocaleLowerCase().split(',').map(s => s.trim()));
 type debugType = 'warn' | 'error' | 'info';
 
 const debuglog = (name: debugType) => (...args: any[]) => {
