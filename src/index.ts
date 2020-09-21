@@ -5,7 +5,9 @@ import { SERV_DIR, SERV_PATH, SERV_ADDR, SERV_PORT, SERV_MD5_PATH, SERV_INFO_PAT
 if (!SERV_DIR) throw new Error('env.SERV_DIR undefined');
 
 const { buffer, entries } = compressDirectory(SERV_DIR);
-const md5 = toMD5(buffer);
+
+const filesMD5s: string[] = entries.map(o => toMD5(o.getCompressedData()));
+const md5 = toMD5(Buffer.from(filesMD5s.join(''), 'utf8'));
 
 (async () => {
 
