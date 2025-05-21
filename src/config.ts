@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+const __dirname = new URL('.', import.meta.url).pathname;
 
 dotenv.config({ path: __dirname + '/../.env' });
 
@@ -15,7 +16,16 @@ export const METRICS_PORT = process.env.METRICS_PORT;
 
 export const ALL_PATHS = [SERV_PATH, SERV_MD5_PATH, SERV_INFO_PATH, METRICS_PATH].filter(f => String(f || '').trim());
 
-import { INFO } from './util';
-
-INFO('config : ', { ...module.exports });
-INFO('env : ', { ...process.env });
+console.log('config : ', {
+    SERV_DIR,
+    SERV_ADDR,
+    SERV_PORT,
+    SERV_PATH,
+    SERV_MD5_PATH,
+    SERV_INFO_PATH,
+    SERV_INFO_VALUE,
+    METRICS_PATH,
+    METRICS_PORT,
+    ALL_PATHS,
+});
+console.log('env : ', { ...process.env });

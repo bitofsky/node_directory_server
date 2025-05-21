@@ -1,7 +1,9 @@
-import promBundle from 'express-prom-bundle'
-import { METRICS_PATH } from './config'
+import { register } from 'prom-client';
 
-export const metricsMiddleware = promBundle({
-    metricsPath: METRICS_PATH,
-    promClient: { collectDefaultMetrics: {} }
-});
+export const metricsMiddleware = (req: any, res: any, next: any) => {
+    register.metrics()
+        .then(output => {
+            res.send(output).end();
+        })
+        .catch(next);
+};
