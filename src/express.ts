@@ -1,9 +1,10 @@
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { type Express, type NextFunction, type Request, type Response } from 'express';
 import helmet from 'helmet';
 
-import { SERV_ADDR, SERV_PORT, METRICS_PORT, METRICS_PATH, ALL_PATHS } from './config';
-import { SIGTERM, WARN, INFO } from './util';
-import { metricsMiddleware } from './metrics';
+import { SERV_ADDR, SERV_PORT, METRICS_PORT, METRICS_PATH, ALL_PATHS } from './config.ts';
+import { SIGTERM, WARN, INFO } from './util.ts';
+import { metricsMiddleware } from './metrics.ts';
+import { collectDefaultMetrics } from 'prom-client';
 
 export function createExpress(port: string, addr: string): Promise<Express> {
 
@@ -20,7 +21,7 @@ export function createExpress(port: string, addr: string): Promise<Express> {
         SIGTERM(() => server.close());
 
         // All other accesses return status 500 error
-        app.use('*', (req, res, next) => {
+        app.use('/{*any}', (req, res, next) => {
             if (req.method === 'GET' && ALL_PATHS.includes(req.originalUrl))
                 return next();
             res.status(500);
@@ -44,11 +45,13 @@ export async function start() {
 
     if (METRICS_PATH) {
 
+        collectDefaultMetrics();
+
         const metricsApp = SERV_PORT === METRICS_PORT ? app : await createExpress(METRICS_PORT, SERV_ADDR);
 
-        WARN(`METRICS_PATH = http://${SERV_ADDR}:${METRICS_PORT}${METRICS_PATH}`);
+        metricsApp.get(METRICS_PATH, metricsMiddleware);
 
-        metricsApp.use(metricsMiddleware);
+        WARN(`METRICS_PATH = http://${SERV_ADDR}:${METRICS_PORT}${METRICS_PATH}`);
 
     }
 

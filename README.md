@@ -20,14 +20,17 @@ NODE_DEBUG=ERROR,WARN (Activate Nodejs debugger)
 
 # Local development environment
 ```
-> npm i
+> pnpm i
 > code .
 [press F5 to run debugger] or
 > npm run debug
 ```
 
-# BUILD tsc
-> npm run build
+# Run
+```bash
+# Run in local
+> npm start
+```
 
 # BUILD docker
 > docker build .
